@@ -24,8 +24,10 @@ def custom_record_gradient(op_name, inputs, attrs, results):
         inputs[1].__dict__["_dtype"] = tf.float32
         reset_input = True
     try:
+        print(1)
         out = tf_backprop._record_gradient("shap_"+op_name, inputs, attrs, results)
     except AttributeError:
+        print(2)
         out = tf_backprop.record_gradient("shap_"+op_name, inputs, attrs, results)
         
     if reset_input:
@@ -363,8 +365,10 @@ class TFDeep(Explainer):
                     inputs.append(v)
                 final_out = out(inputs)
                 try:
+                    print(3)
                     tf_execute.record_gradient = tf_backprop._record_gradient
                 except AttributeError:
+                    print(4)
                     tf_execute.record_gradient = tf_backprop.record_gradient
                     
                 return final_out
